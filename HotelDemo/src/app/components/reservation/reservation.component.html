@@ -1,0 +1,342 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/guest">Welcome to Hotel Orchid</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/guest" routerLinkActive="active"
+            >Guest</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/reservation"
+            routerLinkActive="active"
+            >Reservation</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bill" routerLinkActive="active"
+            >Bill</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payment" routerLinkActive="active"
+            >Payment</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/room" routerLinkActive="active"
+            >Room</a
+          >
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            (click)="logOut()"
+            class="nav-link btn btn-outline-danger text-white px-3"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content mt-5 pt-4">
+  <router-outlet></router-outlet>
+</div>
+<div class="reservation-form-container container mt-5 ">
+  <h2 class="text-center mb-4">Reservation Management</h2>
+
+  <!-- Form to Create or Update Reservation -->
+  <form
+    (ngSubmit)="submitReservation()"
+    class="border p-4 rounded shadow bg-light"
+    style="background: rgba(255, 255, 255, 0.7);"
+  >
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="guestId" class="form-label">Guest ID:</label>
+        <select
+          id="guestId"
+          [(ngModel)]="reservation.guestId"
+          name="guestId"
+          class="form-select"
+          required
+        >
+          <option *ngFor="let guest of guests" [value]="guest.guestId">
+            {{ guest.guestId }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="roomId" class="form-label">Room ID:</label>
+        <select
+          id="roomId"
+          [(ngModel)]="reservation.roomId"
+          name="roomId"
+          class="form-select"
+          required
+        >
+          <option *ngFor="let room of availableRooms" [value]="room.roomNumber">
+            {{ room.roomNumber }} - {{ room.roomType }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="reservationDate" class="form-label">Reservation Date:</label>
+        <input
+          type="date"
+          id="reservationDate"
+          [(ngModel)]="reservation.reservationDate"
+          name="reservationDate"
+          class="form-control"
+          required
+          [attr.min]="minDate"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label for="checkInDate" class="form-label">Check-In Date:</label>
+        <input
+          type="date"
+          id="checkInDate"
+          [(ngModel)]="reservation.checkInDate"
+          name="checkInDate"
+          class="form-control"
+          required
+          [attr.min]="minDate"
+        />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="checkOutDate" class="form-label">Check-Out Date:</label>
+        <input
+          type="date"
+          id="checkOutDate"
+          [(ngModel)]="reservation.checkOutDate"
+          name="checkOutDate"
+          class="form-control"
+          required
+          [attr.min]="minDate"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label for="numberOfGuest" class="form-label">Number of Guests:</label>
+        <input
+          type="number"
+          id="numberOfGuest"
+          [(ngModel)]="reservation.numberOfGuest"
+          name="numberOfGuest"
+          class="form-control"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="bookingStatus" class="form-label">Status:</label>
+      <select
+        id="bookingStatus"
+        [(ngModel)]="reservation.bookingStatus"
+        name="bookingStatus"
+        class="form-select"
+        required
+      >
+        <option value="Reserved">Reserved</option>
+        <option value="Checked-In">Checked-In</option>
+        <option value="Checked-Out">Checked-Out</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">
+      {{
+        reservation.reservationId ? "Update Reservation" : "Create Reservation"
+      }}
+    </button>
+  </form>
+
+  <!-- Collapsible: Search Reservation by Email -->
+  <div class="accordion mt-5" id="emailAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseEmail"
+          aria-expanded="false"
+          aria-controls="collapseEmail"
+        >
+          Search Reservation by Email
+        </button>
+      </h2>
+      <div
+        id="collapseEmail"
+        class="accordion-collapse collapse"
+        aria-labelledby="headingOne"
+        data-bs-parent="#emailAccordion"
+      >
+        <div class="accordion-body border p-4 rounded shadow-sm bg-light">
+          <form (ngSubmit)="getReservationByEmail()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input
+                type="email"
+                id="email"
+                [(ngModel)]="email"
+                name="email"
+                class="form-control"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-secondary w-100">
+              Get Reservation
+            </button>
+          </form>
+
+          <div *ngIf="searchedReservation" class="mt-4">
+            <h4>Reservation Details:</h4>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <strong>Reservation ID:</strong>
+                {{ searchedReservation.reservationId }}
+              </li>
+              <li class="list-group-item">
+                <strong>Guest ID:</strong> {{ searchedReservation.guestId }}
+              </li>
+              <li class="list-group-item">
+                <strong>Room ID:</strong> {{ searchedReservation.roomId }}
+              </li>
+              <li class="list-group-item">
+                <strong>Reservation Date:</strong>
+                {{ searchedReservation.reservationDate }}
+              </li>
+              <li class="list-group-item">
+                <strong>Check-In Date:</strong> {{ searchedReservation.checkInDate }}
+              </li>
+              <li class="list-group-item">
+                <strong>Check-Out Date:</strong>
+                {{ searchedReservation.checkOutDate }}
+              </li>
+              <li class="list-group-item">
+                <strong>Number of Guests:</strong>
+                {{ searchedReservation.numberOfGuest }}
+              </li>
+              <li class="list-group-item">
+                <strong>Status:</strong> {{ searchedReservation.bookingStatus }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible: Load All Reservations -->
+  <div class="accordion mt-5" id="reservationAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseReservations"
+          aria-expanded="false"
+          aria-controls="collapseReservations"
+        >
+          Load All Reservations
+        </button>
+      </h2>
+      <div
+        id="collapseReservations"
+        class="accordion-collapse collapse"
+        aria-labelledby="headingTwo"
+        data-bs-parent="#reservationAccordion"
+      >
+        <div
+          class="accordion-body"
+          style="max-height: 300px; overflow-y: auto; background: rgba(255, 255, 255, 0.7);"
+        >
+          <button (click)="getAllReservations()" class="btn btn-info w-100 mb-3">
+            Load All Reservations
+          </button>
+
+          <div *ngIf="reservations && reservations.length > 0">
+            <table class="table table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>Reservation ID</th>
+                  <th>Guest ID</th>
+                  <th>Room ID</th>
+                  <th>Reservation Date</th>
+                  <th>Check-In Date</th>
+                  <th>Check-Out Date</th>
+                  <th>Number of Guests</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let res of reservations">
+                  <td>{{ res.reservationId }}</td>
+                  <td>{{ res.guestId }}</td>
+                  <td>{{ res.roomId }}</td>
+                  <td>{{ res.reservationDate }}</td>
+                  <td>{{ res.checkInDate }}</td>
+                  <td>{{ res.checkOutDate }}</td>
+                  <td>{{ res.numberOfGuest }}</td>
+                  <td>{{ res.bookingStatus }}</td>
+                  <td>
+                    <button
+                      (click)="addBill(res)"
+                      class="btn btn-primary btn-sm"
+                    >
+                      Add Bill
+                    </button>
+
+                    <button
+                      (click)="deleteReservation(res.reservationId)"
+                      class="btn btn-danger btn-sm"
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="reservations && reservations.length === 0" class="alert alert-info">
+            No reservations found.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

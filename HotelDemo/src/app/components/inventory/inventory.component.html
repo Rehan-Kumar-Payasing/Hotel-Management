@@ -1,0 +1,158 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/staff">Welcome to Hotel Orchid</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/staff" routerLinkActive="active"
+            >Staff</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/inventory"
+            routerLinkActive="active"
+            >Inventory</a
+          >
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            (click)="logOut()"
+            class="nav-link btn btn-outline-danger text-white px-3"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Logout
+        </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content mt-5 pt-4">
+  <router-outlet></router-outlet>
+</div> 
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Inventory Management</h2>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <!-- Inventory Form -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">{{ isEditing ? "Edit Inventory Item" : "Add Inventory Item" }}</h4>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="isEditing ? updateInventory() : addInventory()">
+        <div class="mb-3">
+          <label for="itemName" class="form-label">Item Name</label>
+          <input
+            type="text"
+            id="itemName"
+            [(ngModel)]="selectedInventory.itemName"
+            name="itemName"
+            required
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="itemDescription" class="form-label">Item Description</label>
+          <input
+            type="text"
+            id="itemDescription"
+            [(ngModel)]="selectedInventory.itemDescription"
+            name="itemDescription"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="quantity" class="form-label">Quantity</label>
+          <input
+            type="number"
+            id="quantity"
+            [(ngModel)]="selectedInventory.quantity"
+            name="quantity"
+            required
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="unitPrice" class="form-label">Unit Price</label>
+          <input
+            type="number"
+            id="unitPrice"
+            [(ngModel)]="selectedInventory.unitPrice"
+            name="unitPrice"
+            required
+            class="form-control"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          {{ isEditing ? "Update" : "Add" }} Inventory Item
+        </button>
+        <button type="button" class="btn btn-secondary w-100 mt-2" (click)="resetForm()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Inventory List -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      <h4 class="mb-0">Inventory Items</h4>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">Item Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Unit Price</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of inventoryItems">
+            <td>{{ item.itemName }}</td>
+            <td>{{ item.itemDescription }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.unitPrice | currency }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm me-2" (click)="editInventory(item)">
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="deleteInventory(item.inventoryId)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

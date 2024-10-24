@@ -1,0 +1,32 @@
+.container {
+  margin-top: 20px;
+}
+
+.alert {
+  margin-top: 10px;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Light border for subtle separation */
+}
+
+.card-header {
+  /* background-color: rgba(0, 123, 255, 0.9); Slightly transparent primary color */
+}
+
+.table {
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent table background */
+}
+
+.table-dark {
+  background-color: rgba(0, 0, 0, 0.9); /* Slightly transparent dark table header */
+}

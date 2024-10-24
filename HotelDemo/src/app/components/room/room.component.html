@@ -1,0 +1,220 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/guest">Welcome to Hotel Orchid</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/guest" routerLinkActive="active"
+            >Guest</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/reservation"
+            routerLinkActive="active"
+            >Reservation</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bill" routerLinkActive="active"
+            >Bill</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payment" routerLinkActive="active"
+            >Payment</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/room" routerLinkActive="active"
+            >Room</a
+          >
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            (click)="logOut()"
+            class="nav-link btn btn-outline-danger text-white px-3"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content mt-5 pt-4">
+  <router-outlet></router-outlet>
+</div>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4 text-dark">Room Management</h2>
+
+    <!-- Success and Error Messages -->
+    <div
+      *ngIf="successMessage"
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+    >
+      {{ successMessage }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div
+      *ngIf="errorMessage"
+      class="alert alert-danger alert-dismissible fade show"
+      role="alert"
+    >
+      {{ errorMessage }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <!-- Add Room Form -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-header text-dark">
+        <h4 class="mb-0">Add New Room</h4>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="addRoom()">
+          <div class="mb-3">
+            <label for="roomNumber" class="form-label">Room Number:</label>
+            <input
+              type="text"
+              id="roomNumber"
+              class="form-control"
+              [(ngModel)]="room.roomNumber"
+              name="roomNumber"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="roomType" class="form-label">Room Type:</label>
+            <input
+              type="text"
+              id="roomType"
+              class="form-control"
+              [(ngModel)]="room.roomType"
+              name="roomType"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Status:</label>
+            <select
+              id="status"
+              class="form-select"
+              [(ngModel)]="room.status"
+              name="status"
+              required
+            >
+              <option value="Available">Available</option>
+              <option value="Booked">Booked</option>
+              <option value="Maintenance">Maintenance</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Add Room</button>
+        </form>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Toggle Button for Room List -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="text-center mb-4 text-white">Rooms List</h3>
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#roomListCollapse"
+        aria-expanded="false"
+        aria-controls="roomListCollapse"
+      >
+        Toggle Room List
+      </button>
+    </div>
+
+    <!-- Collapsible Room List -->
+    <div class="collapse show" id="roomListCollapse">
+      <div class="card shadow-sm bg-light bg-opacity-75">
+        <div class="card-body">
+          <div
+            class="table-responsive"
+            style="max-height: 400px; overflow-y: auto"
+          >
+            <table class="table table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>Room Number</th>
+                  <th>Room Type</th>
+                  <th>Status</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let room of rooms">
+                  <td>
+                    <input [(ngModel)]="room.roomNumber" class="form-control" />
+                  </td>
+                  <td>
+                    <input [(ngModel)]="room.roomType" class="form-control" />
+                  </td>
+                  <td>
+                    <select [(ngModel)]="room.status" class="form-select">
+                      <option value="Available">Available</option>
+                      <option value="Booked">Booked</option>
+                      <option value="Maintenance">Maintenance</option>
+                    </select>
+                  </td>
+                  <td class="text-center">
+                    <button
+                      class="btn btn-success btn-sm me-2"
+                      (click)="updateRoom(room)"
+                    >
+                      Update
+                    </button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      (click)="deleteRoom(room.roomId)"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"></script>
+</body>

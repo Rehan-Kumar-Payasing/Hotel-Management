@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\RPAYASIN\\source\\repos\\DemoTwo\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D45CF354-B4B8-4026-ADAB-227249CE2480}|DemoTwo\\DemoTwo.csproj|c:\\users\\rpayasin\\source\\repos\\demotwo\\demotwo\\controllers\\paymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D45CF354-B4B8-4026-ADAB-227249CE2480}|DemoTwo\\DemoTwo.csproj|solutionrelative:demotwo\\controllers\\paymentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D45CF354-B4B8-4026-ADAB-227249CE2480}|DemoTwo\\DemoTwo.csproj|c:\\users\\rpayasin\\source\\repos\\demotwo\\demotwo\\models\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D45CF354-B4B8-4026-ADAB-227249CE2480}|DemoTwo\\DemoTwo.csproj|solutionrelative:demotwo\\models\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D45CF354-B4B8-4026-ADAB-227249CE2480}|DemoTwo\\DemoTwo.csproj|c:\\users\\rpayasin\\source\\repos\\demotwo\\demotwo\\controllers\\adminscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D45CF354-B4B8-4026-ADAB-227249CE2480}|DemoTwo\\DemoTwo.csproj|solutionrelative:demotwo\\controllers\\adminscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HotelDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\RPAYASIN\\source\\repos\\DemoTwo\\DemoTwo\\Models\\HotelDbContext.cs",
+              "RelativeDocumentMoniker": "DemoTwo\\Models\\HotelDbContext.cs",
+              "ToolTip": "C:\\Users\\RPAYASIN\\source\\repos\\DemoTwo\\DemoTwo\\Models\\HotelDbContext.cs",
+              "RelativeToolTip": "DemoTwo\\Models\\HotelDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T03:23:26.35Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PaymentsController.cs",
+              "DocumentMoniker": "C:\\Users\\RPAYASIN\\source\\repos\\DemoTwo\\DemoTwo\\Controllers\\PaymentsController.cs",
+              "RelativeDocumentMoniker": "DemoTwo\\Controllers\\PaymentsController.cs",
+              "ToolTip": "C:\\Users\\RPAYASIN\\source\\repos\\DemoTwo\\DemoTwo\\Controllers\\PaymentsController.cs",
+              "RelativeToolTip": "DemoTwo\\Controllers\\PaymentsController.cs",
+              "ViewState": "AQIAADYAAAAAAAAAAAAgwIoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-31T19:53:14.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdminsController.cs",
+              "DocumentMoniker": "C:\\Users\\RPAYASIN\\source\\repos\\DemoTwo\\DemoTwo\\Controllers\\AdminsController.cs",
+              "RelativeDocumentMoniker": "DemoTwo\\Controllers\\AdminsController.cs",
+              "ToolTip": "C:\\Users\\RPAYASIN\\source\\repos\\DemoTwo\\DemoTwo\\Controllers\\AdminsController.cs",
+              "RelativeToolTip": "DemoTwo\\Controllers\\AdminsController.cs",
+              "ViewState": "AQIAAGYAAAAAAAAAAAAYwHsAAABBAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-23T05:56:20.131Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

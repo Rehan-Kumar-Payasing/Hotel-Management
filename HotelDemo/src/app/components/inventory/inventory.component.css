@@ -1,0 +1,21 @@
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 20px;
+}
+
+table {
+  margin-top: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+button {
+  margin-right: 10px;
+}

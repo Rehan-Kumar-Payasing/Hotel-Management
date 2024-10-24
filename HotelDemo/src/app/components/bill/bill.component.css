@@ -1,0 +1,48 @@
+/* src/app/components/bill/bill.component.css */
+.container {
+  max-width: 800px;
+}
+
+.form-container {
+  /* background-color: #f8f9fa; */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.button-group button {
+  margin-right: 10px;
+}
+
+.list-container {
+  margin-top: 30px;
+}
+
+.alert {
+  margin-top: 20px;
+}
+
+/* Container styling */
+.list-container {
+  max-height: 400px; /* Set a max height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Make the accordion button look like the rest of the navbar */
+.accordion-button {
+  background-color: rgba(0, 0, 0, 0.1); /* Slightly different background color for the button */
+}
+
+/* Make the accordion body have a semi-transparent background */
+.accordion-body {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+}

@@ -1,0 +1,9 @@
+body {
+  background-image: url("./assets/background.jpg"); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Keeps the background image fixed during scrolling */
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}

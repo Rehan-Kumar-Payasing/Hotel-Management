@@ -1,0 +1,52 @@
+/* guest.component.css */
+
+/* Override Bootstrap form control styles */
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+/* Adjust button styling */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Additional styles for button group */
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.list-group-item {
+  border-radius: 0.25rem;
+}
+
+.alert-info {
+  margin-top: 20px;
+}

@@ -1,0 +1,33 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hotel Management</title>
+    <base href="/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <app-root></app-root>
+
+    <!-- Bootstrap 5, Popper.js, and Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom script to collapse navbar on page refresh -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Ensure the navbar is collapsed on page load
+        const navbarToggler = document.querySelector(".navbar-collapse");
+        if (navbarToggler.classList.contains("show")) {
+          navbarToggler.classList.remove("show");
+        }
+      });
+    </script>
+  </body>
+</html>

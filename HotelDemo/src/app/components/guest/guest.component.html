@@ -1,0 +1,213 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/guest">Welcome to Hotel Orchid</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/guest"
+            routerLinkActive="active"
+            >Guest</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/reservation"
+            routerLinkActive="active"
+            >Reservation</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bill" routerLinkActive="active"
+            >Bill</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payment" routerLinkActive="active"
+            >Payment</a
+          >
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" routerLink="/room" routerLinkActive="active"
+            >Room</a
+          >
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            (click)="logOut()"
+            class="nav-link btn btn-outline-danger text-white px-3"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Logout
+        </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content mt-5 pt-4">
+  <router-outlet></router-outlet>
+</div> 
+<div class="container mt-4">
+  <h1 class="text-center mb-4">Guest Management</h1>
+
+  <!-- Form to add or update a guest -->
+  <div class="card bg-light bg-opacity-75 p-4 mb-4 shadow">
+    <h2 class="mb-3 text-center">{{ selectedGuestId ? "Update Guest" : "Add New Guest" }}</h2>
+    <form
+      (ngSubmit)="selectedGuestId ? updateGuest() : addGuest()"
+      class="guest-form needs-validation"
+      novalidate
+    >
+      <div class="form-group mb-3">
+        <label for="name">Name:</label>
+        <input
+          [(ngModel)]="guest.name"
+          name="name"
+          id="name"
+          class="form-control shadow-sm"
+          placeholder="Enter guest name"
+          required
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="email">Email:</label>
+        <input
+          [(ngModel)]="guest.email"
+          name="email"
+          id="email"
+          type="email"
+          class="form-control shadow-sm"
+          placeholder="Enter guest email"
+          required
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="gender">Gender:</label>
+        <select
+          [(ngModel)]="guest.gender"
+          name="gender"
+          id="gender"
+          class="form-control shadow-sm"
+          required
+        >
+          <option value="" disabled selected>Select Gender</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+      </div>
+ 
+      <div class="form-group mb-3">
+        <label for="address">Address:</label>
+        <input
+          [(ngModel)]="guest.address"
+          name="address"
+          id="address"
+          class="form-control shadow-sm"
+          placeholder="Enter guest address"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="phoneNumber">Phone Number:</label>
+        <input
+          [(ngModel)]="guest.phoneNumber"
+          name="phoneNumber"
+          id="phoneNumber"
+          class="form-control shadow-sm"
+          placeholder="Enter guest phone number"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 shadow-sm">
+        {{ selectedGuestId ? "Update" : "Add" }}
+      </button>
+    </form>
+  </div>
+
+  <!-- List of guests -->
+  <div class="card bg-light bg-opacity-75 mb-4 shadow">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2 class="mb-0 text-center">Guest List</h2>
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#guestList"
+        aria-expanded="false"
+        aria-controls="guestList"
+      >
+        Toggle List
+      </button>
+    </div>
+  
+    <div id="guestList" class="collapse show">
+      <div class="card-body p-0" style="max-height: 300px; overflow-y: auto;">
+        <table class="table table-hover table-bordered table-striped bg-light bg-opacity-50 shadow-sm mb-0">
+          <thead class="table-dark bg-dark bg-opacity-75 text-light">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Address</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let guest of guests" class="bg-light bg-opacity-50">
+              <td>{{ guest.guestId }}</td>
+              <td>{{ guest.name }}</td>
+              <td>{{ guest.email }}</td>
+              <td>{{ guest.gender === 'M' ? 'Male' : 'Female' }}</td>
+              <td>{{ guest.address }}</td>
+              <td>{{ guest.phoneNumber }}</td>
+              <td class="text-center">
+                <button class="btn btn-success btn-sm me-2 shadow-sm" (click)="getGuestById(guest.guestId)">
+                  Edit
+                </button>
+                <button class="btn btn-danger btn-sm shadow-sm me-2" (click)="deleteGuest(guest.guestId)">
+                  Delete
+                </button>
+                <!-- New Reservation Button -->
+                <button
+                  class="btn btn-info btn-sm shadow-sm"
+                  [routerLink]="['/reservation']"
+                  [queryParams]="{ guestId: guest.guestId }"
+                >
+                  Reservation
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Message Display -->
+  <div *ngIf="message" class="alert alert-info text-center shadow-sm" role="alert">
+    <p>{{ message }}</p>
+  </div>
+</div>

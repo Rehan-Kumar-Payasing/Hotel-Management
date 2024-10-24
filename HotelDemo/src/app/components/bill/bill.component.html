@@ -1,0 +1,219 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/guest">Welcome to Hotel Orchid</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/guest" routerLinkActive="active"
+            >Guest</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/reservation"
+            routerLinkActive="active"
+            >Reservation</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bill" routerLinkActive="active"
+            >Bill</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payment" routerLinkActive="active"
+            >Payment</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/room" routerLinkActive="active"
+            >Room</a
+          >
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            (click)="logOut()"
+            class="nav-link btn btn-outline-danger text-white px-3"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content mt-5 pt-4">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Container with a background and partial transparent forms -->
+<div class="container mt-5">
+  <h1 class="text-center mb-4 text-dark">Bill Management</h1>
+
+  <!-- Form to add or update a bill -->
+  <div class="form-container border p-4 rounded shadow-sm bg-light bg-opacity-75">
+    <h2 class="mb-4">{{ selectedBillId ? "Update Bill" : "Add New Bill" }}</h2>
+    <form
+      (ngSubmit)="selectedBillId !== null ? updateBill() : addBill()"
+      class="form"
+    >
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="reservationId" class="form-label">Reservation ID:</label>
+          <select
+            [(ngModel)]="bill.reservationId"
+            (change)="onReservationChange($event)"
+            name="reservationId"
+            id="reservationId"
+            class="form-select"
+            required
+          >
+            <option
+              *ngFor="let reservation of reservations"
+              [value]="reservation.reservationId"
+            >
+              {{ reservation.reservationId }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="stayDates" class="form-label">Stay Days:</label>
+          <input
+            [(ngModel)]="bill.stayDates"
+            name="stayDates"
+            id="stayDates"
+            type="text"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="serviceAmounts" class="form-label">Service Amounts:</label>
+          <input
+            [(ngModel)]="bill.serviceAmounts"
+            name="serviceAmounts"
+            id="serviceAmounts"
+            type="number"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="col-md-6">
+          <label for="taxes" class="form-label">Taxes:</label>
+          <input
+            [(ngModel)]="bill.taxes"
+            name="taxes"
+            id="taxes"
+            type="number"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="total" class="form-label">Total:</label>
+        <input
+          [(ngModel)]="bill.total"
+          name="total"
+          id="total"
+          type="number"
+          class="form-control"
+          [value]="bill.serviceAmounts + bill.taxes"
+          readonly
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">
+        {{ selectedBillId ? "Update Bill" : "Add Bill" }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Collapsible Bill List -->
+  <div class="accordion mt-5" id="billAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingBills">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseBills"
+          aria-expanded="false"
+          aria-controls="collapseBills"
+        >
+          Bill List
+        </button>
+      </h2>
+      <div
+        id="collapseBills"
+        class="accordion-collapse collapse"
+        aria-labelledby="headingBills"
+        data-bs-parent="#billAccordion"
+      >
+        <div class="accordion-body">
+          <div class="list-container max-height-scroll bg-light bg-opacity-75 border rounded shadow-sm p-4">
+            <ul class="list-group">
+              <li
+                *ngFor="let bill of bills"
+                class="list-group-item d-flex justify-content-between align-items-center mb-2 border-0 rounded shadow-sm bg-light bg-opacity-50"
+              >
+                <div>
+                  <h5 class="mb-1">Bill ID: {{ bill.billId }}</h5>
+                  <p class="mb-1">
+                    <strong>Reservation ID:</strong> {{ bill.reservationId }}<br />
+                    <strong>Stay Dates:</strong> {{ bill.stayDates }}<br />
+                    <strong>Service Amounts:</strong> {{ bill.serviceAmounts }}<br />
+                    <strong>Taxes:</strong> {{ bill.taxes }}<br />
+                    <strong>Total:</strong> {{ bill.total }}
+                  </p>
+                </div>
+                <div class="button-group">
+                  <button
+                    class="btn btn-info btn-sm me-2"
+                    (click)="getBillById(bill.billId!)"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    (click)="deleteBill(bill.billId!)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            </ul>
+
+            <!-- Message Display -->
+            <div *ngIf="message" class="alert alert-success mt-4">
+              <p class="mb-0">{{ message }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

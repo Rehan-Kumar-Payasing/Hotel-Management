@@ -1,0 +1,241 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/guest">Welcome to Hotel Orchid</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/guest" routerLinkActive="active"
+            >Guest</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/reservation"
+            routerLinkActive="active"
+            >Reservation</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bill" routerLinkActive="active"
+            >Bill</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/payment" routerLinkActive="active"
+            >Payment</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/room" routerLinkActive="active"
+            >Room</a
+          >
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            (click)="logOut()"
+            class="nav-link btn btn-outline-danger text-white px-3"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content mt-5 pt-4">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- src/app/components/payment/payment.component.html -->
+
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Payments</h2>
+
+  <!-- Button to reset form and add new payment -->
+  <div class="d-flex justify-content-center mb-4">
+    <button class="btn btn-primary" (click)="resetForm()">
+      Add New Payment
+    </button>
+  </div>
+
+  <!-- Payment form: Add or Update -->
+  <div class="card shadow-sm mb-4  bg-light bg-opacity-75">
+    <div class="card-body">
+      <form (ngSubmit)="isEditing ? updatePayment() : addPayment()">
+        <h4 class="mb-3 text-center">
+          {{ isEditing ? "Update Payment" : "Add New Payment" }}
+        </h4>
+        <div class="form-group mb-3">
+          <label for="reservationId">Reservation ID</label>
+          <select
+            id="reservationId"
+            [(ngModel)]="payment.reservationId"
+            (change)="getPaymentById(payment.reservationId)"
+            name="reservationId"
+            class="form-control"
+            required
+          >
+            <option *ngFor="let id of reservationIds" [value]="id">
+              {{ id }}
+            </option>
+            <option
+              *ngIf="!reservationIds.includes(payment.reservationId)"
+              [value]="payment.reservationId"
+            >
+              {{ payment.reservationId }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="paymentTime">Payment Time</label>
+          <input
+            type="datetime-local"
+            id="paymentTime"
+            [(ngModel)]="payment.paymentTime"
+            name="paymentTime"
+            class="form-control"
+            [attr.min]="minDate"
+          />
+        </div>
+
+        <!-- Total Amount Section -->
+        <div class="form-group mb-3">
+          <label for="totalAmount">Total Amount</label>
+
+          <!-- Show input field to edit the total amount if editing -->
+          <div *ngIf="isEditing; else addMode">
+            <input
+              type="number"
+              id="totalAmount"
+              [(ngModel)]="payment.totalAmount"
+              name="totalAmount"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <!-- Show radio buttons when adding new payment -->
+          <ng-template #addMode>
+            <div class="form-check">
+              <input
+                type="radio"
+                id="totalAmountYes"
+                [(ngModel)]="payment.totalAmount"
+                name="totalAmount"
+                class="form-check-input"
+                [value]="1"
+              />
+              <label class="form-check-label" for="totalAmountYes">Yes</label>
+            </div>
+            <div class="form-check">
+              <input
+                type="radio"
+                id="totalAmountNo"
+                [(ngModel)]="payment.totalAmount"
+                name="totalAmount"
+                class="form-check-input"
+                [value]="0"
+              />
+              <label class="form-check-label" for="totalAmountNo">No</label>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Form buttons -->
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-success w-50 me-2">
+            {{ isEditing ? "Update Payment" : "Add Payment" }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary w-50"
+            (click)="resetForm()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Payment List -->
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="text-center">Payment List</h3>
+    <button
+      class="btn btn-primary"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#paymentListCollapse"
+      aria-expanded="false"
+      aria-controls="paymentListCollapse"
+    >
+      Toggle Payments List
+    </button>
+  </div>
+
+  <!-- Payment List -->
+  <div class="collapse show" id="paymentListCollapse">
+    <div class="card shadow-sm mt-3 bg-light bg-opacity-75">
+      <div class="card-body">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Payment ID</th>
+                <th scope="col">Reservation ID</th>
+                <th scope="col">Payment Time</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payment of payments">
+                <td>{{ payment.paymentId }}</td>
+                <td>{{ payment.reservationId }}</td>
+                <td>{{ payment.paymentTime | date: "short" }}</td>
+                <td>{{ payment.totalAmount | currency }}</td>
+                <td class="text-center">
+                  <button
+                    class="btn btn-info btn-sm shadow-sm"
+                    (click)="getPaymentById(payment.paymentId)"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm ms-2 shadow-sm"
+                    (click)="deletePayment(payment.paymentId)"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4 shadow-sm">
+    {{ errorMessage }}
+  </div>
+</div>
